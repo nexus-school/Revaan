@@ -543,8 +543,10 @@ body {
 
       <!-- Price with Manual Comparison -->
       <div class="product-price">
-        <span class="price-sale">₹{{ sale_price }}</span>
-        <span class="price-compare">₹{{ original_price }}</span>
+        <span class="price-sale">{{ product.price | money }}</span>
+        {% if product.compare_at_price > product.price %}
+          <span class="price-compare">{{ product.compare_at_price | money }}</span>
+        {% endif %}
       </div>
 
       <!-- Collapsible Sections -->

@@ -1,0 +1,46 @@
+<div class="cart-items" id="main-cart-items">
+  {%- if cart.item_count == 0 -%}
+    <div class="cart-empty">
+      <h2>YOUR CART IS EMPTY</h2>
+      <a href="/collections/all" class="btn-primary">SHOP ALL</a>
+    </div>
+  {%- else -%}
+    <form action="/cart" method="post" id="cart-form">
+      {%- for item in cart.items -%}
+        <div class="cart-item">
+          <a href="{{ item.url }}">
+            <img src="{{ item.image | img_url: '120x120' }}" alt="{{ item.title }}">
+          </a>
+          <div class="cart-item-details">
+            <p class="cart-item-title">{{ item.product.title }}</p>
+            <p class="cart-item-variant">{{ item.variant.title }}</p>
+            <input type="number" name="updates[]" value="{{ item.quantity }}" min="0">
+            <p class="cart-item-price">{{ item.final_line_price | money }}</p>
+          </div>
+          <a href="/cart/change?line={{ forloop.index }}&quantity=0" class="cart-remove">REMOVE</a>
+        </div>
+      {%- endfor -%}
+      <button type="submit" name="update">UPDATE CART</button>
+    </form>
+  {%- endif -%}
+</div>
+
+<style>
+  .cart-items { max-width: 800px; margin: 60px auto; padding: 0 20px; font-family: sans-serif; }
+  .cart-empty { text-align: center; padding: 80px 0; }
+  .cart-empty h2 { font-size: 2rem; font-weight: 900; letter-spacing: 0.1em; }
+  .cart-item { display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #000; padding: 20px 0; }
+  .cart-item img { width: 100px; height: 100px; object-fit: cover; }
+  .cart-item-title { font-weight: 700; font-size: 1rem; text-transform: uppercase; }
+  .cart-item-variant { color: #555; font-size: 0.85rem; }
+  .cart-item input[type="number"] { width: 50px; border: 1px solid #000; padding: 4px; text-align: center; }
+  .cart-remove { font-size: 0.75rem; font-weight: 700; text-decoration: underline; color: #000; }
+  .btn-primary { display: inline-block; background: #000; color: #fff; padding: 14px 32px; font-weight: 700; letter-spacing: 0.1em; text-decoration: none; margin-top: 20px; }
+</style>
+
+{% schema %}
+{
+  "name": "Cart Items",
+  "settings": []
+}
+{% endschema %}

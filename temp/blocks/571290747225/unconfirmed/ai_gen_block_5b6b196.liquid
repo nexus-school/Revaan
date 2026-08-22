@@ -1,6 +1,199 @@
+{% doc %}
+  @prompt
+    On the product page, separate the Size and Color variant options so they each appear in their own distinct section, stacked vertically one above the other rather than side by side. Each option should have its own label and selector displayed as a full-width block.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-variant-stack-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-variant-stack-{{ ai_gen_id }}__option {
+    width: 100%;
+    margin: 0 0 {{ block.settings.option_spacing }}px;
+  }
+
+  .ai-variant-stack-{{ ai_gen_id }}__option:last-child {
+    margin-bottom: 0;
+  }
+
+  .ai-variant-stack-{{ ai_gen_id }}__label {
+    display: block;
+    margin-bottom: 8px;
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.label_size }}px;
+    font-weight: 600;
+  }
+
+  .ai-variant-stack-{{ ai_gen_id }}__select {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 38px 10px 12px;
+    border: 1px solid {{ block.settings.border_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    background-color: {{ block.settings.background_color }};
+    color: {{ block.settings.text_color }};
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .ai-variant-stack-{{ ai_gen_id }}__select:focus {
+    outline: 2px solid {{ block.settings.text_color }};
+    outline-offset: 2px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-variant-stack-{{ ai_gen_id }} {
+      width: 100%;
+    }
+  }
+{% endstyle %}
+
+<variant-option-stack-{{ ai_gen_id }}
+  class="ai-variant-stack-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  {% assign size_option = blank %}
+  {% assign color_option = blank %}
+  {% for option in product.options_with_values %}
+    {% assign option_name = option.name | downcase %}
+    {% if option_name == 'size' %}
+      {% assign size_option = option %}
+    {% elsif option_name == 'color' or option_name == 'colour' %}
+      {% assign color_option = option %}
+    {% endif %}
+  {% endfor %}
+
+  {% if size_option != blank %}
+    <div class="ai-variant-stack-{{ ai_gen_id }}__option">
+      <label class="ai-variant-stack-{{ ai_gen_id }}__label" for="ai-size-{{ ai_gen_id }}">{{ size_option.name }}</label>
+      <select id="ai-size-{{ ai_gen_id }}" class="ai-variant-stack-{{ ai_gen_id }}__select" data-option-name="{{ size_option.name | escape }}" aria-label="{{ size_option.name | escape }}">
+        {% for value in size_option.values %}
+          <option value="{{ value | escape }}"{% if size_option.selected_value == value %} selected{% endif %}>{{ value }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  {% endif %}
+
+  {% if color_option != blank %}
+    <div class="ai-variant-stack-{{ ai_gen_id }}__option">
+      <label class="ai-variant-stack-{{ ai_gen_id }}__label" for="ai-color-{{ ai_gen_id }}">{{ color_option.name }}</label>
+      <select id="ai-color-{{ ai_gen_id }}" class="ai-variant-stack-{{ ai_gen_id }}__select" data-option-name="{{ color_option.name | escape }}" aria-label="{{ color_option.name | escape }}">
+        {% for value in color_option.values %}
+          <option value="{{ value | escape }}"{% if color_option.selected_value == value %} selected{% endif %}>{{ value }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  {% endif %}
+</variant-option-stack-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class VariantOptionStack{{ ai_gen_id }} extends HTMLElement {
+      connectedCallback() {
+        this.selects = this.querySelectorAll('select');
+        this.selects.forEach((select) => {
+          select.addEventListener('change', () => this.updateProductForm(select));
+        });
+      }
+
+      updateProductForm(source) {
+        const form = this.closest('form') || document.querySelector('form[action*="/cart/add"]');
+        if (!form) return;
+        const matching = Array.from(form.querySelectorAll('select, input')).find((control) => {
+          const name = control.name || '';
+          return name.toLowerCase() === ('options[' + source.dataset.optionName + ']').toLowerCase() || name.toLowerCase() === source.dataset.optionName.toLowerCase();
+        });
+        if (matching && matching !== source) {
+          matching.value = source.value;
+          matching.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      }
+    }
+    if (!customElements.get('variant-option-stack-{{ ai_gen_id }}')) {
+      customElements.define('variant-option-stack-{{ ai_gen_id }}', VariantOptionStack{{ ai_gen_id }});
+    }
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Stacked variant options",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Displays Size and Color or Colour options as separate full-width selectors."
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "option_spacing",
+      "label": "Space between options",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "label": "Label size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Stacked variant options"
+    }
+  ],
+  "tag": null,
+  "class": "stacked-variant-options"
+}
 {% endschema %}

@@ -11,6 +11,7 @@
   "sections": {
     "main": {
       "type": "product-main",
+      "custom_css": [],
       "settings": {}
     },
     "17640674398b98f938": {

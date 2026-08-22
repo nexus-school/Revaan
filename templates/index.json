@@ -267,6 +267,38 @@
         "ai_gen_block_a9ee594_nKQUBe"
       ],
       "settings": {}
+    },
+    "1787423963f028b8e0": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_0a3e021_C8mJMK": {
+          "type": "ai_gen_block_0a3e021",
+          "settings": {
+            "desktop_width_percent": 100,
+            "column_gap": 30,
+            "vertical_padding": 30,
+            "mobile_padding": 15,
+            "title_size": 35,
+            "size_chart": "<p>Check the product measurements before ordering.</p>",
+            "shipping_info": "<p>UK delivery details and dispatch times.</p>",
+            "returns_info": "<p>See our returns policy for exchange details.</p>",
+            "background_color": "#FFFFFF",
+            "text_color": "#000000",
+            "heading_color": "#000000",
+            "sale_color": "#D00000",
+            "muted_color": "#555555",
+            "border_color": "#D9D9D9",
+            "button_color": "#000000",
+            "button_text_color": "#FFFFFF",
+            "focus_color": "#005FCC"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_0a3e021_C8mJMK"
+      ],
+      "settings": {}
     }
   },
   "order": [
@@ -282,6 +314,7 @@
     "blocks_LkXA7B",
     "newsletter_kG7P8y",
     "custom_liquid_QFcnpJ",
-    "17874236733699df50"
+    "17874236733699df50",
+    "1787423963f028b8e0"
   ]
 }

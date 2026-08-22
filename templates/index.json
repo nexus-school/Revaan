@@ -216,6 +216,28 @@
     "17874281704e368934": {
       "type": "_blocks",
       "settings": {}
+    },
+    "17874296597757048a": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_5b6b196_Cg7mP8": {
+          "type": "ai_gen_block_5b6b196",
+          "settings": {
+            "desktop_width_percent": 100,
+            "option_spacing": 16,
+            "label_size": 14,
+            "border_radius": 0,
+            "text_color": "#000000",
+            "border_color": "#000000",
+            "background_color": "#FFFFFF"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_5b6b196_Cg7mP8"
+      ],
+      "settings": {}
     }
   },
   "order": [
@@ -234,6 +256,7 @@
     "17874236733699df50",
     "1787423963f028b8e0",
     "17874281434c478c7d",
-    "17874281704e368934"
+    "17874281704e368934",
+    "17874296597757048a"
   ]
 }

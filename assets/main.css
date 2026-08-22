@@ -1511,4 +1511,7 @@ table td {
     opacity: 1;
   }
 }
+body {
+  padding-top: 80px;
+}
 

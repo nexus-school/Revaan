@@ -8,6 +8,8 @@
 <style>
   .reference-style-header {
     width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
     background: #ffffff;
     color: #000000;
     position: relative;
@@ -23,7 +25,7 @@
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    min-height: 78px;
+    min-height: 58px;
     padding: 0 22px;
   }
 
@@ -82,17 +84,9 @@
     text-decoration: none;
   }
 
-  .reference-style-header__logo-image {
-    display: block;
-    width: auto;
-    max-width: 100%;
-    height: {{ section.settings.logo_height }}px;
-    object-fit: contain;
-  }
-
   .reference-style-header__logo-text {
     font-family: var(--font-heading-family, Arial, sans-serif);
-    font-size: 22px;
+    font-size: 28px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.02em;
@@ -136,7 +130,7 @@
 
   @media screen and (max-width: 749px) {
     .reference-style-header__inner {
-      min-height: 70px;
+      min-height: 54px;
       padding: 0 16px;
       grid-template-columns: 1fr auto 1fr;
     }
@@ -148,10 +142,6 @@
 
     .reference-style-header__burger {
       display: block;
-    }
-
-    .reference-style-header__logo-image {
-      height: {{ section.settings.logo_height_mobile }}px;
     }
 
     .reference-style-header__utility-link {
@@ -236,19 +226,8 @@
     </div>
 
     <div class="reference-style-header__logo">
-      <a class="reference-style-header__logo-link" href="{{ routes.root_url }}">
-        {% if section.settings.logo != blank %}
-          {{
-            section.settings.logo
-            | image_url: width: 500
-            | image_tag:
-              class: 'reference-style-header__logo-image',
-              loading: 'eager',
-              alt: shop.name
-          }}
-        {% else %}
-          <span class="reference-style-header__logo-text">{{ shop.name }}</span>
-        {% endif %}
+      <a class="reference-style-header__logo-link" href="{{ routes.root_url }}" aria-label="VYBE home">
+        <span class="reference-style-header__logo-text">VYBE</span>
       </a>
     </div>
 
@@ -332,31 +311,6 @@
 {
   "name": "Reference-style header",
   "settings": [
-    {
-      "type": "image_picker",
-      "id": "logo",
-      "label": "Logo"
-    },
-    {
-      "type": "range",
-      "id": "logo_height",
-      "label": "Logo height - desktop",
-      "min": 20,
-      "max": 120,
-      "step": 1,
-      "default": 32,
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "logo_height_mobile",
-      "label": "Logo height - mobile",
-      "min": 20,
-      "max": 100,
-      "step": 1,
-      "default": 28,
-      "unit": "px"
-    },
     {
       "type": "link_list",
       "id": "menu",

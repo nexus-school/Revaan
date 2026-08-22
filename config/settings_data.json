@@ -102,7 +102,7 @@
           "contact_address": "",
           "enable_newsletter": false,
           "newsletter_text": "Subscribe to get special offers and updates",
-          "enable-payment-icons": false,
+          "enable-payment-icons": true,
           "payment-color": "in-color",
           "enable-social-icons": false,
           "enable_site_copyright": false,

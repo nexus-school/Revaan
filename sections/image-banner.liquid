@@ -28,12 +28,8 @@
     position: relative;
   }
 
-  /*
-    Pull the hero upward underneath the header.
-    This is the bit that removes the white strip.
-  */
   .section-{{ section.id }}-padding {
-    margin-top: -{{ section.settings.header-overlap }}px !important;
+    margin-top: 0 !important;
     margin-bottom: {{ section.settings.padding-bottom }}px;
   }
 
@@ -73,25 +69,32 @@
   }
 
   {% if template == 'index' %}
-    /*
-      Keep the header above the image, but NOT fixed.
-      It scrolls away normally with the page.
-    */
+    /* The console showed MainContent had 58px padding-top.
+       Remove it so the hero begins directly behind the zero-height overlay header. */
+    #MainContent {
+      padding-top: 0 !important;
+      margin-top: 0 !important;
+    }
+
+    #MainContent > .shopify-section:first-child {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+    }
+
     #shopify-section-header {
       position: relative !important;
       z-index: 100 !important;
+      margin: 0 !important;
+      padding: 0 !important;
       background: transparent !important;
     }
 
-    #shopify-section-header,
     #shopify-section-header .page-width,
     #shopify-section-header .header-wrapper {
       background: transparent !important;
     }
 
-    /*
-      Force all header text to black over the hero.
-    */
+    /* Black header text */
     #shopify-section-header .menu-item,
     #shopify-section-header .menu-item a,
     #shopify-section-header .right-nav,
@@ -118,11 +121,8 @@
       background-position: center;
     }
 
-    /*
-      Mobile header is shorter, so use a smaller overlap.
-    */
     .section-{{ section.id }}-padding {
-      margin-top: -56px !important;
+      margin-top: 0 !important;
     }
 
     .banner-content_h2 {
@@ -197,16 +197,6 @@
       "label": "Image banner height",
       "unit": "%",
       "default": 77
-    },
-    {
-      "type": "range",
-      "id": "header-overlap",
-      "min": 0,
-      "max": 120,
-      "step": 2,
-      "label": "Move image up under header",
-      "unit": "px",
-      "default": 80
     },
     {
       "type": "header",

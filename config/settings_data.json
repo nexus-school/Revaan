@@ -102,15 +102,16 @@
           "contact_address": "",
           "enable_newsletter": false,
           "newsletter_text": "Subscribe to get special offers and updates",
-          "enable-payment-icons": true,
+          "enable-payment-icons": false,
           "payment-color": "in-color",
           "enable-social-icons": false,
           "enable_site_copyright": false,
           "enable_eyecey_copyright": false,
-          "enable_big_logo": false,
-          "margin-top": 15,
-          "padding-top": 45,
-          "padding-bottom": 30
+          "enable_big_logo": true,
+          "big_logo_img": "shopify://shop_images/VYBE_2026.png",
+          "margin-top": 0,
+          "padding-top": 20,
+          "padding-bottom": 20
         }
       },
       "related-products": {

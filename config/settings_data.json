@@ -86,10 +86,7 @@
         "type": "header",
         "custom_css": [],
         "settings": {
-          "menu": "main-menu",
-          "text_color": "#ffffff",
-          "mobile_menu_bg": "#ffffff",
-          "mobile_menu_text_color": "#000000"
+          "menu": "main-menu"
         }
       },
       "footer": {

@@ -586,19 +586,27 @@ body {
       </div>
     </div>
 
-    <!-- CENTER COLUMN - IMAGE -->
-    <div class="product-image-column">
-      <div class="product-image-wrapper" id="image-wrapper">
-        <img 
-          src="{{ product.featured_image | img_url: 'large' }}" 
-          alt="{{ product.title }}"
-          class="product-image"
-          id="main-product-image">
-        
-        {% if product.images.size > 1 %}
-        <div class="image-nav-arrow prev" onclick="navigateImage('prev')">‹</div>
-        <div class="image-nav-arrow next" onclick="navigateImage('next')">›</div>
-        {% endif %}
+      <!-- CENTER COLUMN - IMAGE -->
+      <div class="product-image-column">
+        <div class="product-image-wrapper" id="image-wrapper">
+
+          {% if product.featured_image %}
+            <img 
+              src="{{ product.featured_image | image_url: width: 1200 }}" 
+              alt="{{ product.featured_image.alt | default: product.title | escape }}"
+              class="product-image"
+              id="main-product-image"
+              width="{{ product.featured_image.width }}"
+              height="{{ product.featured_image.height }}"
+            >
+          {% endif %}
+              
+          {% if product.images.size > 1 %}
+            <div class="image-nav-arrow prev" onclick="navigateImage('prev')">‹</div>
+            <div class="image-nav-arrow next" onclick="navigateImage('next')">›</div>
+          {% endif %}
+
+        </div>
       </div>
       
       {% if product.images.size > 1 %}

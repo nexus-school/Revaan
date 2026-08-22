@@ -86,19 +86,8 @@
         "type": "header",
         "custom_css": [],
         "settings": {
-          "enable_top_bar": false,
-          "top_bar_text": "",
-          "top_bar_text_size": 10,
-          "top_bar_bg": "#000000",
-          "top_bar_text_color": "#ffffff",
-          "logo_height": 26,
-          "logo_height_mobile": 24,
-          "menu_icon_color_scrolled": "#ffffff",
-          "icon_color_scrolled": "#ffffff",
-          "enable_nav_tabs": false,
-          "tabs_bg_scrolled": "#000000",
-          "tab_text_color_scrolled": "#ffffff",
           "menu": "main-menu",
+          "text_color": "#ffffff",
           "mobile_menu_bg": "#ffffff",
           "mobile_menu_text_color": "#000000"
         }

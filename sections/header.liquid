@@ -8,14 +8,19 @@
 {% endcomment %}
 
 <style>
-  /* Do not create space above/below this section */
+  /* Do not let the Shopify section wrapper create its own row above the hero */
   #shopify-section-{{ section.id }} {
+    position: static !important;
+    height: 0 !important;
+    min-height: 0 !important;
     margin: 0 !important;
     padding: 0 !important;
+    overflow: visible !important;
+    background: transparent !important;
   }
 
   .vybe-overlay-header {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;

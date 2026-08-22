@@ -1,16 +1,19 @@
 {% comment %}
-  VYBE transparent overlay header
+  VYBE hero overlay header
+  Transparent, overlays the top hero, scrolls away with the page.
 {% endcomment %}
 
 <style>
+  /* Critical: do NOT position this wrapper.
+     The actual header needs to position against the page, not this section. */
   #shopify-section-{{ section.id }} {
-    position: relative !important;
+    position: static !important;
     height: 0 !important;
     min-height: 0 !important;
     margin: 0 !important;
     padding: 0 !important;
     overflow: visible !important;
-    z-index: 9999;
+    background: transparent !important;
   }
 
   .vybe-header {
@@ -18,11 +21,10 @@
     top: 0;
     left: 0;
     right: 0;
-    z-index: 9999;
     width: 100%;
+    z-index: 9999;
     background: transparent;
-    color: #fff;
-    pointer-events: none;
+    color: #ffffff;
   }
 
   .vybe-header__inner {
@@ -31,7 +33,6 @@
     align-items: center;
     min-height: 58px;
     padding: 0 10px;
-    pointer-events: auto;
   }
 
   .vybe-header__left,
@@ -56,6 +57,7 @@
     gap: 15px;
   }
 
+  /* Same typography for every header word, including VYBE */
   .vybe-header__nav a,
   .vybe-header__brand,
   .vybe-header__right a {
@@ -76,10 +78,10 @@
 
   .vybe-header__burger {
     display: none;
-    background: none;
     border: 0;
-    color: inherit;
     padding: 0;
+    background: transparent;
+    color: inherit;
     cursor: pointer;
   }
 
@@ -106,14 +108,13 @@
       display: flex;
       position: fixed;
       inset: 0;
-      z-index: 9998;
-      background: #fff;
-      color: #000;
+      z-index: 10000;
+      background: #ffffff;
+      color: #000000;
       align-items: center;
       justify-content: center;
       flex-direction: column;
       gap: 24px;
-      pointer-events: auto;
     }
 
     .vybe-header__mobile-menu a {
@@ -121,7 +122,7 @@
       font-style: var(--font-heading-style) !important;
       font-weight: var(--font-heading-weight) !important;
       text-transform: uppercase !important;
-      color: #000 !important;
+      color: #000000 !important;
       text-decoration: none !important;
       font-size: 24px !important;
     }
@@ -130,16 +131,21 @@
 
 <header class="vybe-header">
   <div class="vybe-header__inner">
-
     <div class="vybe-header__left">
-      <button class="vybe-header__burger" id="VybeMenuButton-{{ section.id }}" aria-label="Menu">
+      <button
+        class="vybe-header__burger"
+        id="VybeMenuButton-{{ section.id }}"
+        type="button"
+        aria-label="Menu"
+        aria-expanded="false"
+      >
         <svg width="45" height="41" viewBox="0 0 55 51" fill="none" aria-hidden="true">
           <line x1="8" y1="20" x2="48" y2="20" stroke="currentColor" stroke-width="2"/>
           <line x1="8" y1="28.6133" x2="48" y2="28.6133" stroke="currentColor" stroke-width="2"/>
         </svg>
       </button>
 
-      <nav class="vybe-header__nav">
+      <nav class="vybe-header__nav" aria-label="Main navigation">
         {% if section.settings.menu != blank %}
           {% for link in section.settings.menu.links %}
             <a href="{{ link.url }}">{{ link.title }}</a>
@@ -162,7 +168,6 @@
       {% endif %}
       <a href="{{ routes.cart_url }}">Cart (<span id="CartCount">{{ cart.item_count }}</span>)</a>
     </div>
-
   </div>
 </header>
 
@@ -172,6 +177,7 @@
       <a href="{{ link.url }}">{{ link.title }}</a>
     {% endfor %}
   {% endif %}
+
   {% if shop.customer_accounts_enabled %}
     <a href="{{ routes.account_url }}">Account</a>
   {% endif %}
@@ -179,19 +185,21 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const btn = document.getElementById('VybeMenuButton-{{ section.id }}');
-    const menu = document.getElementById('VybeMobileMenu-{{ section.id }}');
+    var button = document.getElementById('VybeMenuButton-{{ section.id }}');
+    var menu = document.getElementById('VybeMobileMenu-{{ section.id }}');
 
-    if (!btn || !menu) return;
+    if (!button || !menu) return;
 
-    btn.addEventListener('click', function () {
-      const open = menu.classList.toggle('is-open');
+    button.addEventListener('click', function () {
+      var open = menu.classList.toggle('is-open');
+      button.setAttribute('aria-expanded', open ? 'true' : 'false');
       document.body.style.overflow = open ? 'hidden' : '';
     });
 
     menu.querySelectorAll('a').forEach(function (link) {
       link.addEventListener('click', function () {
         menu.classList.remove('is-open');
+        button.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
       });
     });
@@ -200,17 +208,12 @@
 
 {% schema %}
 {
-  "name": "VYBE overlay header",
+  "name": "VYBE hero header",
   "settings": [
     {
       "type": "link_list",
       "id": "menu",
       "label": "Menu"
-    }
-  ],
-  "presets": [
-    {
-      "name": "VYBE overlay header"
     }
   ]
 }

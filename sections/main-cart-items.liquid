@@ -15,7 +15,6 @@
             <img src="{{ item.image | img_url: '200x200', crop: 'center' }}" alt="{{ item.title }}">
           </a>
           <div class="vybe-cart__info">
-            <p class="vybe-cart__brand">{{ item.vendor | upcase }}</p>
             <p class="vybe-cart__title">{{ item.product.title | upcase }}</p>
             {%- unless item.variant.title == 'Default Title' -%}
               <p class="vybe-cart__variant">{{ item.variant.title | upcase }}</p>
@@ -43,7 +42,6 @@
   .vybe-cart__header h1 { font-size: 1.6rem; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 16px; margin-bottom: 0; }
   .vybe-cart__item { display: grid; grid-template-columns: 120px 1fr auto; gap: 24px; align-items: start; padding: 24px 0; border-bottom: 1px solid #e0e0e0; }
   .vybe-cart__image img { width: 120px; height: 120px; object-fit: cover; display: block; }
-  .vybe-cart__brand { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; color: #888; margin: 0 0 4px; }
   .vybe-cart__title { font-size: 1rem; font-weight: 900; letter-spacing: 0.08em; margin: 0 0 4px; }
   .vybe-cart__variant { font-size: 0.8rem; font-weight: 500; color: #555; letter-spacing: 0.05em; margin: 0 0 16px; }
   .vybe-cart__qty { display: flex; align-items: center; gap: 10px; }

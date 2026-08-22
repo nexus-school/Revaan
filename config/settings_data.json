@@ -57,7 +57,7 @@
     "product_desc_line_height_pc": 1.4,
     "product_desc_size_mobile": 14,
     "product_desc_line_height_mobile": 1.4,
-    "cart-type": "drawer",
+    "cart-type": "page",
     "enable-header-overlay": true,
     "header-overlay-menu-color": "#ffffff",
     "header-overlay-logo": "shopify://shop_images/Untitled_design_25_b0b3f98b-596a-407b-9006-68a913f86c19.png",

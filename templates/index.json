@@ -12,6 +12,7 @@
     "image_banner_k7jJkP": {
       "type": "image-banner",
       "settings": {
+        "image-banner": "shopify://shop_images/vybe.png",
         "image-overlay": 41,
         "banner-height": 100,
         "h2-text": "NEW DROP OUT NOW!",
@@ -35,7 +36,7 @@
             "title_size": 14,
             "title_spacing": 18,
             "title_color": "#000000",
-            "columns_desktop": "4",
+            "columns_desktop": "3",
             "columns_tablet": "2",
             "columns_mobile": "2",
             "grid_gap": 12,
@@ -43,8 +44,8 @@
             "section_padding_bottom": 36,
             "image_ratio": 145,
             "card_spacing": 8,
-            "product_title_size": 11,
-            "price_size": 10,
+            "product_title_size": 16,
+            "price_size": 14,
             "info_spacing": 2,
             "text_color": "#000000",
             "sale_price_color": "#000000",
@@ -53,12 +54,12 @@
             "badge_bg_color": "#ff0000",
             "badge_text_color": "#ffffff",
             "transition_speed": 0.4,
-            "product_1": "f-cking-liar-unisex-oversized-comfort-fit-t-shirt",
-            "product_2": "pulpy",
-            "product_3": "wavy-core-unisex-oversized-comfort-fit-t-shirt",
-            "product_4": "city-beats-unisex-oversized-comfort-fit-t-shirt",
-            "product_5": "",
-            "product_6": "",
+            "product_1": "boys-vintage-wash-jeans",
+            "product_2": "unisex-straight-leg-pants",
+            "product_3": "boys-performace-t-shirt",
+            "product_4": "womens-flare-leggings",
+            "product_5": "girls-cropped-tube-top",
+            "product_6": "girls-denim-shorts",
             "product_7": "",
             "product_8": "",
             "product_9": "",
@@ -275,7 +276,7 @@
       "type": "custom-liquid",
       "name": "Custom Liquid/HTML",
       "settings": {
-        "custom_liquid": "<model-viewer\nid=\"bouncing-model\"\nsrc=\"https://cdn.shopify.com/3d/models/84e4d7b6a8e5d0f6/logo.glb\"\nalt=\"A 3D model\"\nenvironment-image=\"https://cdn.shopify.com/s/files/1/0823/2121/1739/files/clouds.jpg?v=1726024215\"\nmin-camera-orbit=\"auto auto 40m\"\nmax-camera-orbit=\"auto auto 40m\"\ncamera-controls\nexposure=\"2.5\"\nstyle=\"width: 100%; height: 700px; background-color: black;\">\n</model-viewer>\n\n<style>\n@media (max-width: 768px) {\n  #bouncing-model {\n    height: 350px !important;\n  }\n}\n\n@media (max-width: 480px) {\n  #bouncing-model {\n    height: 250px !important;\n  }\n}\n</style>\n\n<script>\nconst modelViewer = document.getElementById('bouncing-model');\nlet time = 0;\n\nfunction animateBounce() {\n  time += 0.01;\n  \n  if (modelViewer.model) {\n    const bounceAmount = Math.sin(time) * 0.15;\n    modelViewer.model.position.y = bounceAmount;\n  }\n  \n  requestAnimationFrame(animateBounce);\n}\n\nmodelViewer.addEventListener('load', () => {\n  animateBounce();\n});\n</script>"
+        "custom_liquid": "<style>\n/* Center product titles and prices in the Latest drop cards */\n[id*=\"ai_gen_block_5475e38_hjxTNw\"] h3,\n[id*=\"ai_gen_block_5475e38_hjxTNw\"] .price,\n[id*=\"ai_gen_block_5475e38_hjxTNw\"] [class*=\"title\"],\n[id*=\"ai_gen_block_5475e38_hjxTNw\"] [class*=\"price\"] {\n  text-align: center !important;\n}\n</style>"
       }
     }
   },

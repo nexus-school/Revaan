@@ -45,7 +45,7 @@
             "link_size": 11,
             "product_title_size": 12,
             "price_size": 10,
-            "image_shadow": "0 8px 20px rgba(0, 0, 0, 0.25)",
+            "image_shadow": "0 4px 12px rgba(0, 0, 0, 0.15)",
             "transition_speed": 250
           },
           "blocks": {}

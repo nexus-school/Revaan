@@ -1,6 +1,163 @@
+{% doc %}
+  @prompt
+    Create a fully functional cart page template for a Shopify OS 2.0 theme. The page should display cart line items with product images, titles, variant details, editable quantities, and prices. Include a subtotal, a checkout button, and a Continue Shopping link. Style it to match a bold, minimal urban streetwear aesthetic — monochrome black and white, clean typography, no decorative elements.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-cart-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin: 0 auto;
+    color: {{ block.settings.text_color }};
+    background: {{ block.settings.background_color }};
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .ai-cart-{{ ai_gen_id }}__inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 48px 24px 64px;
+  }
+
+  .ai-cart-{{ ai_gen_id }}__heading {
+    margin: 0 0 36px;
+    color: {{ block.settings.heading_color }};
+    font-size: 42px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .ai-cart-{{ ai_gen_id }}__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 48px;
+    align-items: start;
+  }
+
+  .ai-cart-{{ ai_gen_id }}__line {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr) auto;
+    gap: 20px;
+    padding: 20px 0;
+    border-top: 1px solid {{ block.settings.border_color }};
+  }
+
+  .ai-cart-{{ ai_gen_id }}__line:last-child { border-bottom: 1px solid {{ block.settings.border_color }}; }
+  .ai-cart-{{ ai_gen_id }}__image, .ai-cart-{{ ai_gen_id }}__placeholder { width: 112px; height: 140px; object-fit: cover; background: #f2f2f2; }
+  .ai-cart-{{ ai_gen_id }}__placeholder { display: flex; align-items: center; justify-content: center; }
+  .ai-cart-{{ ai_gen_id }}__placeholder svg { width: 70%; height: 70%; }
+  .ai-cart-{{ ai_gen_id }}__title { margin: 0 0 8px; color: {{ block.settings.heading_color }}; font-size: 16px; font-weight: 700; text-decoration: none; }
+  .ai-cart-{{ ai_gen_id }}__variant { margin: 0 0 18px; font-size: 13px; line-height: 1.4; }
+  .ai-cart-{{ ai_gen_id }}__quantity { display: inline-flex; align-items: center; border: 1px solid {{ block.settings.border_color }}; }
+  .ai-cart-{{ ai_gen_id }}__quantity button { width: 32px; height: 32px; border: 0; background: transparent; color: {{ block.settings.text_color }}; cursor: pointer; font-size: 18px; }
+  .ai-cart-{{ ai_gen_id }}__quantity input { width: 38px; height: 32px; border: 0; background: transparent; color: {{ block.settings.text_color }}; text-align: center; font-size: 14px; }
+  .ai-cart-{{ ai_gen_id }}__price { color: {{ block.settings.heading_color }}; font-weight: 700; white-space: nowrap; }
+  .ai-cart-{{ ai_gen_id }}__remove { display: block; margin-top: 12px; padding: 0; border: 0; background: transparent; color: {{ block.settings.text_color }}; font-size: 11px; text-decoration: underline; cursor: pointer; }
+  .ai-cart-{{ ai_gen_id }}__summary { padding: 24px; background: {{ block.settings.summary_color }}; }
+  .ai-cart-{{ ai_gen_id }}__subtotal { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 22px; color: {{ block.settings.heading_color }}; font-size: 18px; font-weight: 700; }
+  .ai-cart-{{ ai_gen_id }}__note { margin: 0 0 22px; font-size: 12px; line-height: 1.5; }
+  .ai-cart-{{ ai_gen_id }}__checkout { display: block; width: 100%; padding: 16px; border: 1px solid {{ block.settings.button_background }}; background: {{ block.settings.button_background }}; color: {{ block.settings.button_text }}; text-align: center; font-weight: 700; text-decoration: none; text-transform: uppercase; cursor: pointer; }
+  .ai-cart-{{ ai_gen_id }}__continue { display: inline-block; margin-top: 24px; color: {{ block.settings.text_color }}; font-size: 13px; text-decoration: underline; text-transform: uppercase; }
+  .ai-cart-{{ ai_gen_id }}__empty { padding: 40px 0; border-top: 1px solid {{ block.settings.border_color }}; }
+  .ai-cart-{{ ai_gen_id }}__empty p { margin: 0 0 22px; }
+
+  @media screen and (max-width: 749px) {
+    .ai-cart-{{ ai_gen_id }}__inner { padding: 32px 16px 48px; }
+    .ai-cart-{{ ai_gen_id }}__heading { font-size: 32px; margin-bottom: 24px; }
+    .ai-cart-{{ ai_gen_id }}__layout { display: block; }
+    .ai-cart-{{ ai_gen_id }}__line { grid-template-columns: 84px minmax(0, 1fr); gap: 14px; }
+    .ai-cart-{{ ai_gen_id }}__image, .ai-cart-{{ ai_gen_id }}__placeholder { width: 84px; height: 108px; }
+    .ai-cart-{{ ai_gen_id }}__line > .ai-cart-{{ ai_gen_id }}__price { grid-column: 2; }
+    .ai-cart-{{ ai_gen_id }}__summary { margin-top: 32px; }
+  }
+{% endstyle %}
+
+<cart-page-{{ ai_gen_id }} class="ai-cart-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-cart-{{ ai_gen_id }}__inner">
+    <h1 class="ai-cart-{{ ai_gen_id }}__heading">{{ block.settings.heading }}</h1>
+    {% if cart.item_count == 0 %}
+      <div class="ai-cart-{{ ai_gen_id }}__empty">
+        <p>{{ block.settings.empty_message }}</p>
+        <a class="ai-cart-{{ ai_gen_id }}__checkout" href="{{ routes.all_products_collection_url }}">{{ block.settings.shop_button }}</a>
+      </div>
+    {% else %}
+      <div class="ai-cart-{{ ai_gen_id }}__layout">
+        <div>
+          {% for item in cart.items %}
+            <div class="ai-cart-{{ ai_gen_id }}__line" data-line="{{ forloop.index }}">
+              <a href="{{ item.url }}">
+                {% if item.image %}<img class="ai-cart-{{ ai_gen_id }}__image" src="{{ item.image | image_url: width: 300 }}" alt="{{ item.image.alt | default: item.product.title | escape }}" width="112" height="140" loading="lazy">{% else %}<div class="ai-cart-{{ ai_gen_id }}__placeholder">{{ 'product-apparel-1' | placeholder_svg_tag }}</div>{% endif %}
+              </a>
+              <div>
+                <a class="ai-cart-{{ ai_gen_id }}__title" href="{{ item.url }}">{{ item.product.title }}</a>
+                {% unless item.product.has_only_default_variant %}<p class="ai-cart-{{ ai_gen_id }}__variant">{{ item.variant.title }}</p>{% endunless %}
+                <div class="ai-cart-{{ ai_gen_id }}__quantity"><button type="button" data-action="decrease" aria-label="Decrease quantity">−</button><input type="number" min="0" value="{{ item.quantity }}" data-quantity aria-label="Quantity for {{ item.product.title | escape }}"><button type="button" data-action="increase" aria-label="Increase quantity">+</button></div>
+                <button class="ai-cart-{{ ai_gen_id }}__remove" type="button" data-action="remove">Remove</button>
+              </div>
+              <div class="ai-cart-{{ ai_gen_id }}__price">{{ item.final_line_price | money }}</div>
+            </div>
+          {% endfor %}
+        </div>
+        <aside class="ai-cart-{{ ai_gen_id }}__summary">
+          <div class="ai-cart-{{ ai_gen_id }}__subtotal"><span>{{ block.settings.subtotal_label }}</span><span>{{ cart.total_price | money }}</span></div>
+          <p class="ai-cart-{{ ai_gen_id }}__note">{{ block.settings.tax_note }}</p>
+          <a class="ai-cart-{{ ai_gen_id }}__checkout" href="{{ routes.checkout_url }}">{{ block.settings.checkout_label }}</a>
+          <a class="ai-cart-{{ ai_gen_id }}__continue" href="{{ routes.all_products_collection_url }}">{{ block.settings.continue_label }}</a>
+        </aside>
+      </div>
+    {% endif %}
+  </div>
+</cart-page-{{ ai_gen_id }}>
+
+<script>
+(function() {
+  class CartPage{{ ai_gen_id }} extends HTMLElement {
+    connectedCallback() {
+      this.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-action]');
+        if (!button) return;
+        const row = button.closest('[data-line]');
+        const input = row.querySelector('[data-quantity]');
+        let quantity = parseInt(input.value, 10) || 0;
+        if (button.dataset.action === 'increase') quantity += 1;
+        if (button.dataset.action === 'decrease') quantity = Math.max(0, quantity - 1);
+        if (button.dataset.action === 'remove') quantity = 0;
+        this.update(row.dataset.line, quantity);
+      });
+      this.addEventListener('change', (event) => { if (event.target.matches('[data-quantity]')) this.update(event.target.closest('[data-line]').dataset.line, Math.max(0, parseInt(event.target.value, 10) || 0)); });
+    }
+    update(line, quantity) { fetch('/cart/change.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ line: parseInt(line, 10), quantity: quantity }) }).then(() => window.location.reload()); }
+  }
+  customElements.define('cart-page-{{ ai_gen_id }}', CartPage{{ ai_gen_id }});
+})();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Cart page",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Your cart" },
+    { "type": "text", "id": "empty_message", "label": "Empty message", "default": "Your cart is currently empty." },
+    { "type": "text", "id": "shop_button", "label": "Shop button", "default": "Shop all" },
+    { "type": "text", "id": "subtotal_label", "label": "Subtotal label", "default": "Subtotal" },
+    { "type": "text", "id": "tax_note", "label": "Tax note", "default": "Taxes and shipping are calculated at checkout." },
+    { "type": "text", "id": "checkout_label", "label": "Checkout label", "default": "Checkout" },
+    { "type": "text", "id": "continue_label", "label": "Continue label", "default": "Continue shopping" },
+    { "type": "range", "id": "desktop_width_percent", "label": "Desktop width", "min": 50, "max": 100, "step": 5, "unit": "%", "default": 100 },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#FFFFFF" },
+    { "type": "color", "id": "summary_color", "label": "Summary background", "default": "#F2F2F2" },
+    { "type": "color", "id": "heading_color", "label": "Headings", "default": "#000000" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#000000" },
+    { "type": "color", "id": "border_color", "label": "Borders", "default": "#000000" },
+    { "type": "color", "id": "button_background", "label": "Button background", "default": "#000000" },
+    { "type": "color", "id": "button_text", "label": "Button text", "default": "#FFFFFF" }
+  ],
+  "presets": [{ "name": "Cart page" }],
+  "tag": null,
+  "class": "cart-page-block"
+}
 {% endschema %}

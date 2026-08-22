@@ -56,10 +56,53 @@
             "product_12": "boys-fleeced-hoodie"
           },
           "blocks": {}
+        },
+        "ai_gen_block_5475e38_mc4gdy": {
+          "type": "ai_gen_block_5475e38",
+          "name": "Latest drop",
+          "disabled": true,
+          "settings": {
+            "section_title": "",
+            "title_size": 14,
+            "title_spacing": 32,
+            "title_color": "#000000",
+            "columns_desktop": "4",
+            "columns_tablet": "2",
+            "columns_mobile": "2",
+            "grid_gap": 12,
+            "section_padding_top": 60,
+            "section_padding_bottom": 60,
+            "image_ratio": 125,
+            "card_spacing": 16,
+            "product_title_size": 13,
+            "price_size": 13,
+            "info_spacing": 6,
+            "text_color": "#000000",
+            "sale_price_color": "#000000",
+            "compare_price_color": "#000000",
+            "show_discount_badge": true,
+            "badge_bg_color": "#FF0000",
+            "badge_text_color": "#FFFFFF",
+            "transition_speed": 0.4,
+            "product_1": "boys-fleeced-hoodie",
+            "product_2": "",
+            "product_3": "",
+            "product_4": "",
+            "product_5": "",
+            "product_6": "",
+            "product_7": "",
+            "product_8": "",
+            "product_9": "",
+            "product_10": "",
+            "product_11": "",
+            "product_12": ""
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "ai_gen_block_5475e38_kndPAH"
+        "ai_gen_block_5475e38_kndPAH",
+        "ai_gen_block_5475e38_mc4gdy"
       ],
       "name": "Latest drop",
       "settings": {}

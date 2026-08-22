@@ -281,8 +281,10 @@
   <div class="ai-latest-drop__grid-{{ ai_gen_id }}">
     {% for i in (1..12) %}
       {% liquid
-        assign product_key = 'product_' | append: i
-        assign product = block.settings[product_key]
+        assign price = product.price
+        assign compare_at_price = product.compare_at_price
+        assign price_difference = compare_at_price | minus: price
+        assign discount_percentage = price_difference | times: 100.0 | divided_by: compare_at_price | round
       %}
 
       {% if product != blank %}

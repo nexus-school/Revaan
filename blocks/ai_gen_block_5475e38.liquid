@@ -281,10 +281,8 @@
   <div class="ai-latest-drop__grid-{{ ai_gen_id }}">
     {% for i in (1..12) %}
       {% liquid
-        assign price = product.price
-        assign compare_at_price = product.compare_at_price
-        assign price_difference = compare_at_price | minus: price
-        assign discount_percentage = price_difference | times: 100.0 | divided_by: compare_at_price | round
+        assign product_key = 'product_' | append: i
+        assign product = block.settings[product_key]
       %}
 
       {% if product != blank %}
@@ -329,7 +327,9 @@
             
             <div class="ai-latest-drop__price-wrapper-{{ ai_gen_id }}">
               <p class="ai-latest-drop__price-{{ ai_gen_id }}">{{ price | money }}</p>
-              <p class="ai-latest-drop__compare-price-{{ ai_gen_id }}">{{ compare_at_price | money }}</p>
+              {% if compare_at_price > price %}
+                <p class="ai-latest-drop__compare-price-{{ ai_gen_id }}">{{ compare_at_price | money }}</p>
+              {% endif %}
             </div>
           </div>
         </a>
@@ -340,33 +340,23 @@
 
 <script>
   (function() {
-    // Mobile touch handling for image switching
     const cards = document.querySelectorAll('[data-card]');
     let activeCard = null;
 
     cards.forEach(card => {
-      // Handle touch events on mobile
       card.addEventListener('touchstart', function(e) {
-        // If this card is already active, let the link work normally
         if (this.classList.contains('is-active')) {
           return;
         }
-        
-        // Otherwise, prevent navigation and show hover image
         e.preventDefault();
-        
-        // Remove active state from other cards
         if (activeCard && activeCard !== this) {
           activeCard.classList.remove('is-active');
         }
-        
-        // Toggle active state on this card
         this.classList.add('is-active');
         activeCard = this;
       });
     });
 
-    // Remove active state when tapping outside
     document.addEventListener('touchstart', function(e) {
       if (!e.target.closest('[data-card]')) {
         cards.forEach(card => card.classList.remove('is-active'));

@@ -6,6 +6,24 @@
 {% endcomment %}
 
 <style>
+  /* Remove theme/header spacing above this section */
+  #shopify-section-{{ section.id }} {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .shopify-section-group-header-group {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  /* No announcement/top bar */
+  .announcement-bar-section,
+  #shopify-section-announcement-bar,
+  .announcement-bar {
+    display: none !important;
+  }
+
   .reference-style-header {
     width: 100%;
     margin: 0 !important;
@@ -85,11 +103,15 @@
   }
 
   .reference-style-header__logo-text {
-    font-family: var(--font-heading-family, Arial, sans-serif);
-    font-size: 28px;
-    font-weight: 700;
+    color: #000000;
+    text-decoration: none;
     text-transform: uppercase;
-    letter-spacing: 0.02em;
+    font-family: var(--font-heading-family, Arial, sans-serif);
+    font-size: 15px;
+    font-weight: var(--font-heading-weight, 700);
+    font-style: var(--font-heading-style, normal);
+    line-height: 1;
+    letter-spacing: normal;
   }
 
   .reference-style-header__burger {

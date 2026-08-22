@@ -84,6 +84,7 @@
       },
       "header": {
         "type": "header",
+        "custom_css": [],
         "settings": {
           "enable_top_bar": false,
           "top_bar_text": "",
@@ -94,7 +95,7 @@
           "logo_height_mobile": 24,
           "menu_icon_color_scrolled": "#ffffff",
           "icon_color_scrolled": "#ffffff",
-          "enable_nav_tabs": true,
+          "enable_nav_tabs": false,
           "tabs_bg_scrolled": "#000000",
           "tab_text_color_scrolled": "#ffffff",
           "menu": "main-menu",

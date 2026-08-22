@@ -25,10 +25,10 @@
     background-position: center;
     position: relative;
   }
-  .section-{{ section.id }}-padding {
-    margin-top: {{ section.settings.padding-top }}px;
-    margin-bottom: {{ section.settings.padding-bottom }}px;    
-  }
+.section-{{ section.id }}-padding { 
+  margin-top: 0 !important;
+  margin-bottom: {{ section.settings.padding-bottom }}px;     
+}
   .image-banner-container::after {
     content: '';
     position: absolute;

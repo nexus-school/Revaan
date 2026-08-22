@@ -55,7 +55,7 @@
             "badge_text_color": "#ffffff",
             "transition_speed": 0.4,
             "product_1": "boys-vintage-wash-jeans",
-            "product_2": "unisex-straight-leg-pants",
+            "product_2": "boys-fleeced-hoodie",
             "product_3": "boys-performace-t-shirt",
             "product_4": "womens-flare-leggings",
             "product_5": "girls-cropped-tube-top",
@@ -229,7 +229,7 @@
             "border_radius": 0,
             "text_color": "#000000",
             "border_color": "#000000",
-            "background_color": "#FFFFFF"
+            "background_color": "#ffffff"
           },
           "blocks": {}
         }

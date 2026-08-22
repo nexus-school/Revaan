@@ -1,6 +1,144 @@
+{% doc %}
+  @prompt
+    Add a CSS fix to push the main page content down so it does not overlap with the fixed or sticky header. Add the correct top padding or margin to the main content area to account for the header height, so nothing gets hidden behind it.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-header-offset-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    height: 0;
+    overflow: hidden;
+  }
+
+  main.ai-header-offset-target-{{ ai_gen_id }} {
+    padding-top: var(--ai-header-offset-{{ ai_gen_id }}, 0px);
+  }
+
+  @media screen and (max-width: 749px) {
+    main.ai-header-offset-target-{{ ai_gen_id }} {
+      padding-top: var(--ai-header-offset-mobile-{{ ai_gen_id }}, 0px);
+    }
+  }
+{% endstyle %}
+
+<header-offset-fix-{{ ai_gen_id }}
+  class="ai-header-offset-{{ ai_gen_id }}"
+  data-header-selector="{{ block.settings.header_selector | escape }}"
+  data-offset-mode="{{ block.settings.offset_mode }}"
+  data-desktop-extra="{{ block.settings.desktop_extra_space }}"
+  data-mobile-extra="{{ block.settings.mobile_extra_space }}"
+  {{ block.shopify_attributes }}
+></header-offset-fix-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class HeaderOffsetFix{{ ai_gen_id }} extends HTMLElement {
+      connectedCallback() {
+        this.updateOffset = this.updateOffset.bind(this);
+        this.updateOffset();
+        window.addEventListener('resize', this.updateOffset);
+        window.addEventListener('scroll', this.updateOffset, { passive: true });
+      }
+
+      disconnectedCallback() {
+        window.removeEventListener('resize', this.updateOffset);
+        window.removeEventListener('scroll', this.updateOffset);
+      }
+
+      updateOffset() {
+        var selector = this.dataset.headerSelector;
+        var header = document.querySelector(selector);
+        var main = document.querySelector('main');
+        if (!header || !main) return;
+
+        var height = header.getBoundingClientRect().height;
+        var extraDesktop = parseFloat(this.dataset.desktopExtra) || 0;
+        var extraMobile = parseFloat(this.dataset.mobileExtra) || 0;
+        var extra = window.matchMedia('(max-width: 749px)').matches ? extraMobile : extraDesktop;
+        var offset = this.dataset.offsetMode === 'header' ? height + extra : extra;
+
+        main.classList.add('ai-header-offset-target-{{ ai_gen_id }}');
+        main.style.setProperty('--ai-header-offset-{{ ai_gen_id }}', offset + 'px');
+        main.style.setProperty('--ai-header-offset-mobile-{{ ai_gen_id }}', offset + 'px');
+      }
+    }
+
+    if (!customElements.get('header-offset-fix-{{ ai_gen_id }}')) {
+      customElements.define('header-offset-fix-{{ ai_gen_id }}', HeaderOffsetFix{{ ai_gen_id }});
+    }
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Header spacing fix",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header offset"
+    },
+    {
+      "type": "text",
+      "id": "header_selector",
+      "label": "Header selector",
+      "default": "header"
+    },
+    {
+      "type": "select",
+      "id": "offset_mode",
+      "label": "Spacing mode",
+      "options": [
+        {
+          "value": "header",
+          "label": "Header height"
+        },
+        {
+          "value": "extra",
+          "label": "Extra space only"
+        }
+      ],
+      "default": "header"
+    },
+    {
+      "type": "range",
+      "id": "desktop_extra_space",
+      "label": "Desktop extra space",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_extra_space",
+      "label": "Mobile extra space",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header spacing fix"
+    }
+  ],
+  "tag": null,
+  "class": "header-spacing-fix-block"
+}
 {% endschema %}

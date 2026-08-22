@@ -10,7 +10,7 @@
 {
   "current": {
     "favicon": "shopify://shop_images/ir.jpg",
-    "type_header_font": "archivo_narrow_n7",
+    "type_header_font": "archivo_black_n4",
     "type_body_font": "helvetica_n3",
     "font_transform": "uppercase",
     "font_transform_body": "standart",

@@ -244,11 +244,6 @@
   <div class="ai-you-may-like-grid-{{ ai_gen_id }}">
     {% if block.settings.product_list != blank %}
       {% for product in block.settings.product_list %}
-        {% liquid
-          assign compare_at_price = 399900
-          assign price = 199900
-        %}
-        
         <a href="{{ product.url }}" class="ai-you-may-like-card-{{ ai_gen_id }}">
           <div class="ai-you-may-like-image-wrapper-{{ ai_gen_id }}">
             {% if product.featured_image %}
@@ -290,8 +285,10 @@
           <div class="ai-you-may-like-info-{{ ai_gen_id }}">
             <h3 class="ai-you-may-like-product-title-{{ ai_gen_id }}">{{ product.title }}</h3>
             <div class="ai-you-may-like-price-wrapper-{{ ai_gen_id }}">
-              <p class="ai-you-may-like-price-{{ ai_gen_id }}">{{ price | money }}</p>
-              <p class="ai-you-may-like-compare-price-{{ ai_gen_id }}">{{ compare_at_price | money }}</p>
+              <p class="ai-you-may-like-price-{{ ai_gen_id }}">{{ product.price | money }}</p>
+              {% if product.compare_at_price > product.price %}
+                <p class="ai-you-may-like-compare-price-{{ ai_gen_id }}">{{ product.compare_at_price | money }}</p>
+              {% endif %}
             </div>
           </div>
         </a>
@@ -307,8 +304,7 @@
           <div class="ai-you-may-like-info-{{ ai_gen_id }}">
             <h3 class="ai-you-may-like-product-title-{{ ai_gen_id }}">Product Name</h3>
             <div class="ai-you-may-like-price-wrapper-{{ ai_gen_id }}">
-              <p class="ai-you-may-like-price-{{ ai_gen_id }}">₹1,999</p>
-              <p class="ai-you-may-like-compare-price-{{ ai_gen_id }}">₹3,999</p>
+              <p class="ai-you-may-like-price-{{ ai_gen_id }}">£0.00</p>
             </div>
           </div>
         </div>

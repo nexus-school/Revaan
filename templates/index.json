@@ -215,32 +215,6 @@
     },
     "17874281704e368934": {
       "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_7d1cfd9_N9B7n4": {
-          "type": "ai_gen_block_7d1cfd9",
-          "settings": {
-            "heading": "Your cart",
-            "empty_message": "Your cart is currently empty.",
-            "shop_button": "Shop all",
-            "subtotal_label": "Subtotal",
-            "tax_note": "Taxes and shipping are calculated at checkout.",
-            "checkout_label": "Checkout",
-            "continue_label": "Continue shopping",
-            "desktop_width_percent": 100,
-            "background_color": "#FFFFFF",
-            "summary_color": "#F2F2F2",
-            "heading_color": "#000000",
-            "text_color": "#000000",
-            "border_color": "#000000",
-            "button_background": "#000000",
-            "button_text": "#FFFFFF"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_7d1cfd9_N9B7n4"
-      ],
       "settings": {}
     }
   },

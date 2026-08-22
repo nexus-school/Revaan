@@ -1,46 +1,65 @@
-<div class="cart-items" id="main-cart-items">
+<div class="vybe-cart" id="main-cart-items">
   {%- if cart.item_count == 0 -%}
-    <div class="cart-empty">
+    <div class="vybe-cart__empty">
       <h2>YOUR CART IS EMPTY</h2>
-      <a href="/collections/all" class="btn-primary">SHOP ALL</a>
+      <a href="/collections/all" class="vybe-btn">SHOP ALL</a>
     </div>
   {%- else -%}
     <form action="/cart" method="post" id="cart-form">
+      <div class="vybe-cart__header">
+        <h1>YOUR CART ({{ cart.item_count }})</h1>
+      </div>
       {%- for item in cart.items -%}
-        <div class="cart-item">
-          <a href="{{ item.url }}">
-            <img src="{{ item.image | img_url: '120x120' }}" alt="{{ item.title }}">
+        <div class="vybe-cart__item">
+          <a href="{{ item.url }}" class="vybe-cart__image">
+            <img src="{{ item.image | img_url: '200x200', crop: 'center' }}" alt="{{ item.title }}">
           </a>
-          <div class="cart-item-details">
-            <p class="cart-item-title">{{ item.product.title }}</p>
-            <p class="cart-item-variant">{{ item.variant.title }}</p>
-            <input type="number" name="updates[]" value="{{ item.quantity }}" min="0">
-            <p class="cart-item-price">{{ item.final_line_price | money }}</p>
+          <div class="vybe-cart__info">
+            <p class="vybe-cart__brand">{{ item.vendor | upcase }}</p>
+            <p class="vybe-cart__title">{{ item.product.title | upcase }}</p>
+            {%- unless item.variant.title == 'Default Title' -%}
+              <p class="vybe-cart__variant">{{ item.variant.title | upcase }}</p>
+            {%- endunless -%}
+            <div class="vybe-cart__qty">
+              <label>QTY</label>
+              <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" max="99">
+            </div>
           </div>
-          <a href="/cart/change?line={{ forloop.index }}&quantity=0" class="cart-remove">REMOVE</a>
+          <div class="vybe-cart__right">
+            <p class="vybe-cart__price">{{ item.final_line_price | money }}</p>
+            <a href="/cart/change?line={{ forloop.index }}&quantity=0" class="vybe-cart__remove">REMOVE</a>
+          </div>
         </div>
       {%- endfor -%}
-      <button type="submit" name="update">UPDATE CART</button>
+      <button type="submit" name="update" class="vybe-cart__update">UPDATE CART</button>
     </form>
   {%- endif -%}
 </div>
 
 <style>
-  .cart-items { max-width: 800px; margin: 60px auto; padding: 0 20px; font-family: sans-serif; }
-  .cart-empty { text-align: center; padding: 80px 0; }
-  .cart-empty h2 { font-size: 2rem; font-weight: 900; letter-spacing: 0.1em; }
-  .cart-item { display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #000; padding: 20px 0; }
-  .cart-item img { width: 100px; height: 100px; object-fit: cover; }
-  .cart-item-title { font-weight: 700; font-size: 1rem; text-transform: uppercase; }
-  .cart-item-variant { color: #555; font-size: 0.85rem; }
-  .cart-item input[type="number"] { width: 50px; border: 1px solid #000; padding: 4px; text-align: center; }
-  .cart-remove { font-size: 0.75rem; font-weight: 700; text-decoration: underline; color: #000; }
-  .btn-primary { display: inline-block; background: #000; color: #fff; padding: 14px 32px; font-weight: 700; letter-spacing: 0.1em; text-decoration: none; margin-top: 20px; }
+  .vybe-cart { max-width: 900px; margin: 60px auto; padding: 0 24px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+  .vybe-cart__empty { text-align: center; padding: 100px 0; }
+  .vybe-cart__empty h2 { font-size: 2rem; font-weight: 900; letter-spacing: 0.15em; margin-bottom: 32px; }
+  .vybe-cart__header h1 { font-size: 1.6rem; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 16px; margin-bottom: 0; }
+  .vybe-cart__item { display: grid; grid-template-columns: 120px 1fr auto; gap: 24px; align-items: start; padding: 24px 0; border-bottom: 1px solid #e0e0e0; }
+  .vybe-cart__image img { width: 120px; height: 120px; object-fit: cover; display: block; }
+  .vybe-cart__brand { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; color: #888; margin: 0 0 4px; }
+  .vybe-cart__title { font-size: 1rem; font-weight: 900; letter-spacing: 0.08em; margin: 0 0 4px; }
+  .vybe-cart__variant { font-size: 0.8rem; font-weight: 500; color: #555; letter-spacing: 0.05em; margin: 0 0 16px; }
+  .vybe-cart__qty { display: flex; align-items: center; gap: 10px; }
+  .vybe-cart__qty label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; }
+  .vybe-cart__qty input { width: 52px; height: 36px; border: 1px solid #000; text-align: center; font-size: 0.9rem; font-weight: 700; background: #fff; }
+  .vybe-cart__right { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+  .vybe-cart__price { font-size: 1rem; font-weight: 900; letter-spacing: 0.05em; margin: 0; }
+  .vybe-cart__remove { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-decoration: underline; color: #000; cursor: pointer; }
+  .vybe-cart__update { margin-top: 16px; background: none; border: 1px solid #000; padding: 10px 24px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; cursor: pointer; }
+  .vybe-btn { display: inline-block; background: #000; color: #fff; padding: 14px 36px; font-weight: 900; letter-spacing: 0.15em; text-decoration: none; font-size: 0.85rem; }
+  @media (max-width: 600px) {
+    .vybe-cart__item { grid-template-columns: 90px 1fr; }
+    .vybe-cart__right { grid-column: 2; flex-direction: row; justify-content: space-between; align-items: center; }
+  }
 </style>
 
 {% schema %}
-{
-  "name": "Cart Items",
-  "settings": []
-}
+{ "name": "Cart Items", "settings": [] }
 {% endschema %}

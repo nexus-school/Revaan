@@ -1,195 +1,184 @@
 {% comment %}
-  Header inspired by the reference layout:
-  - Desktop: navigation left, logo centred, account/cart right
-  - Mobile: burger left, logo centred, cart right
-  - Full-screen mobile menu
+  VYBE overlay header
+  - Sits directly over the hero/image beneath it
+  - Transparent at the top
+  - VYBE uses the exact same typography as navigation/utility links
+  - Desktop: menu left, VYBE centred, Account + Cart right
+  - Mobile: burger left, VYBE centred, Cart right
 {% endcomment %}
 
 <style>
-  /* Remove theme/header spacing above this section */
+  /* Do not create space above/below this section */
   #shopify-section-{{ section.id }} {
     margin: 0 !important;
     padding: 0 !important;
   }
 
-  .shopify-section-group-header-group {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-  }
-
-  /* No announcement/top bar */
-  .announcement-bar-section,
-  #shopify-section-announcement-bar,
-  .announcement-bar {
-    display: none !important;
-  }
-
-  .reference-style-header {
+  .vybe-overlay-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
     width: 100%;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: #ffffff;
-    color: #000000;
-    position: relative;
-    z-index: 100;
+    z-index: 999;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    color: {{ section.settings.text_color }};
   }
 
-  .reference-style-header * {
+  .vybe-overlay-header * {
     box-sizing: border-box;
   }
 
-  .reference-style-header__inner {
+  .vybe-overlay-header__inner {
     position: relative;
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
+    width: 100%;
     min-height: 58px;
-    padding: 0 22px;
+    padding: 0 16px;
+    margin: 0;
   }
 
-  .reference-style-header__left,
-  .reference-style-header__right {
+  .vybe-overlay-header__left,
+  .vybe-overlay-header__right {
     display: flex;
     align-items: center;
+    min-width: 0;
   }
 
-  .reference-style-header__left {
+  .vybe-overlay-header__left {
     justify-content: flex-start;
   }
 
-  .reference-style-header__right {
+  .vybe-overlay-header__right {
     justify-content: flex-end;
     gap: 16px;
     white-space: nowrap;
   }
 
-  .reference-style-header__nav {
+  .vybe-overlay-header__nav {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
     gap: 16px;
+    flex-wrap: wrap;
   }
 
-  .reference-style-header__link,
-  .reference-style-header__utility-link,
-  .reference-style-header__mobile-link {
-    color: #000000;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-family: var(--font-heading-family, Arial, sans-serif);
-    font-size: 15px;
-    line-height: 1;
+  /* EXACT same typography for menu, VYBE, Account and Cart */
+  .vybe-overlay-header__nav-link,
+  .vybe-overlay-header__wordmark,
+  .vybe-overlay-header__utility-link,
+  .vybe-overlay-header__mobile-link {
+    font-family: var(--font-heading-family, Arial, Helvetica, sans-serif) !important;
+    font-style: var(--font-heading-style, normal) !important;
+    font-weight: var(--font-heading-weight, 700) !important;
+    font-size: 15px !important;
+    line-height: 1 !important;
+    letter-spacing: 0 !important;
+    text-transform: uppercase !important;
+    color: inherit !important;
+    text-decoration: none !important;
   }
 
-  .reference-style-header__link:hover,
-  .reference-style-header__utility-link:hover,
-  .reference-style-header__mobile-link:hover {
-    opacity: 0.65;
+  .vybe-overlay-header__nav-link:hover,
+  .vybe-overlay-header__wordmark:hover,
+  .vybe-overlay-header__utility-link:hover,
+  .vybe-overlay-header__mobile-link:hover {
+    opacity: 0.7;
   }
 
-  .reference-style-header__logo {
+  .vybe-overlay-header__centre {
     justify-self: center;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .reference-style-header__logo-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: #000000;
-    text-decoration: none;
+  .vybe-overlay-header__wordmark {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
   }
 
-  .reference-style-header__logo-text {
-    color: #000000;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-family: var(--font-heading-family, Arial, sans-serif);
-    font-size: 15px;
-    font-weight: var(--font-heading-weight, 700);
-    font-style: var(--font-heading-style, normal);
-    line-height: 1;
-    letter-spacing: normal;
-  }
-
-  .reference-style-header__burger {
+  .vybe-overlay-header__burger {
     display: none;
     width: 45px;
     height: 41px;
     padding: 0;
+    margin: 0;
     border: 0;
     background: transparent;
+    color: inherit;
     cursor: pointer;
     position: relative;
     z-index: 1002;
   }
 
-  .reference-style-header__burger svg {
+  .vybe-overlay-header__burger svg {
     display: block;
   }
 
-  .reference-style-header__burger .icon-close {
+  .vybe-overlay-header__burger .icon-close {
     display: none;
   }
 
-  .reference-style-header__burger.is-open .icon-menu {
+  .vybe-overlay-header__burger.is-open .icon-menu {
     display: none;
   }
 
-  .reference-style-header__burger.is-open .icon-close {
+  .vybe-overlay-header__burger.is-open .icon-close {
     display: block;
   }
 
-  .reference-style-header__mobile-menu {
+  .vybe-overlay-header__mobile-menu {
     display: none;
   }
 
-  .reference-style-header__cart-count {
-    display: inline;
+  @media screen and (min-width: 750px) {
+    .vybe-overlay-header__inner {
+      min-height: 58px;
+      padding: 0 8px;
+    }
   }
 
   @media screen and (max-width: 749px) {
-    .reference-style-header__inner {
-      min-height: 54px;
-      padding: 0 16px;
-      grid-template-columns: 1fr auto 1fr;
+    .vybe-overlay-header__inner {
+      min-height: 56px;
+      padding: 0 12px;
     }
 
-    .reference-style-header__desktop-nav,
-    .reference-style-header__account-desktop {
+    .vybe-overlay-header__desktop-nav,
+    .vybe-overlay-header__account-desktop {
       display: none;
     }
 
-    .reference-style-header__burger {
+    .vybe-overlay-header__burger {
       display: block;
     }
 
-    .reference-style-header__utility-link {
-      font-size: 14px;
-    }
-
-    .reference-style-header__mobile-menu {
+    .vybe-overlay-header__mobile-menu {
       display: none;
       position: fixed;
       inset: 0;
       width: 100%;
       height: 100dvh;
-      background: #ffffff;
+      background: {{ section.settings.mobile_menu_bg }};
+      color: {{ section.settings.mobile_menu_text_color }};
       z-index: 1000;
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      padding: 90px 24px 40px;
+      padding: 80px 24px 40px;
       overflow-y: auto;
     }
 
-    .reference-style-header__mobile-menu.is-open {
+    .vybe-overlay-header__mobile-menu.is-open {
       display: flex;
     }
 
-    .reference-style-header__mobile-nav {
+    .vybe-overlay-header__mobile-nav {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -197,28 +186,28 @@
       width: 100%;
     }
 
-    .reference-style-header__mobile-link {
-      font-size: 24px;
+    .vybe-overlay-header__mobile-link {
+      font-size: 24px !important;
       text-align: center;
     }
 
-    .reference-style-header__mobile-account {
-      margin-top: 26px;
+    .vybe-overlay-header__mobile-account {
+      margin-top: 20px;
     }
   }
 </style>
 
-<header class="reference-style-header" id="ReferenceHeader-{{ section.id }}">
-  <div class="reference-style-header__inner">
+<header class="vybe-overlay-header" id="VybeHeader-{{ section.id }}">
+  <div class="vybe-overlay-header__inner">
 
-    <div class="reference-style-header__left">
+    <div class="vybe-overlay-header__left">
       <button
         type="button"
-        class="reference-style-header__burger"
-        id="ReferenceBurger-{{ section.id }}"
+        class="vybe-overlay-header__burger"
+        id="VybeBurger-{{ section.id }}"
         aria-label="Open menu"
         aria-expanded="false"
-        aria-controls="ReferenceMobileMenu-{{ section.id }}"
+        aria-controls="VybeMobileMenu-{{ section.id }}"
       >
         <svg class="icon-menu" xmlns="http://www.w3.org/2000/svg" width="45" height="41" viewBox="0 0 55 51" fill="none" aria-hidden="true">
           <line x1="8" y1="20" x2="48" y2="20" stroke="currentColor" stroke-width="2"></line>
@@ -231,37 +220,33 @@
         </svg>
       </button>
 
-      <nav class="reference-style-header__nav reference-style-header__desktop-nav" aria-label="Main navigation">
+      <nav class="vybe-overlay-header__nav vybe-overlay-header__desktop-nav" aria-label="Main navigation">
         {% if section.settings.menu != blank %}
           {% for link in section.settings.menu.links %}
-            <a class="reference-style-header__link" href="{{ link.url }}">
+            <a class="vybe-overlay-header__nav-link" href="{{ link.url }}">
               {{ link.title }}
             </a>
           {% endfor %}
-        {% else %}
-          <a class="reference-style-header__link" href="{{ routes.root_url }}">Home</a>
-          <a class="reference-style-header__link" href="/collections/all">Catalog</a>
-          <a class="reference-style-header__link" href="/pages/about-us">About us</a>
-          <a class="reference-style-header__link" href="/pages/contact">Contact</a>
         {% endif %}
       </nav>
     </div>
 
-    <div class="reference-style-header__logo">
-      <a class="reference-style-header__logo-link" href="{{ routes.root_url }}" aria-label="VYBE home">
-        <span class="reference-style-header__logo-text">VYBE</span>
-      </a>
+    <div class="vybe-overlay-header__centre">
+      <a class="vybe-overlay-header__wordmark" href="{{ routes.root_url }}">VYBE</a>
     </div>
 
-    <div class="reference-style-header__right">
+    <div class="vybe-overlay-header__right">
       {% if shop.customer_accounts_enabled %}
-        <a class="reference-style-header__utility-link reference-style-header__account-desktop" href="{{ routes.account_url }}">
+        <a
+          class="vybe-overlay-header__utility-link vybe-overlay-header__account-desktop"
+          href="{{ routes.account_url }}"
+        >
           Account
         </a>
       {% endif %}
 
-      <a class="reference-style-header__utility-link" href="{{ routes.cart_url }}">
-        Cart (<span class="reference-style-header__cart-count">{{ cart.item_count }}</span>)
+      <a class="vybe-overlay-header__utility-link" href="{{ routes.cart_url }}">
+        Cart (<span>{{ cart.item_count }}</span>)
       </a>
     </div>
 
@@ -269,26 +254,24 @@
 </header>
 
 <div
-  class="reference-style-header__mobile-menu"
-  id="ReferenceMobileMenu-{{ section.id }}"
+  class="vybe-overlay-header__mobile-menu"
+  id="VybeMobileMenu-{{ section.id }}"
   aria-hidden="true"
 >
-  <nav class="reference-style-header__mobile-nav" aria-label="Mobile navigation">
+  <nav class="vybe-overlay-header__mobile-nav" aria-label="Mobile navigation">
     {% if section.settings.menu != blank %}
       {% for link in section.settings.menu.links %}
-        <a class="reference-style-header__mobile-link" href="{{ link.url }}">
+        <a class="vybe-overlay-header__mobile-link" href="{{ link.url }}">
           {{ link.title }}
         </a>
       {% endfor %}
-    {% else %}
-      <a class="reference-style-header__mobile-link" href="{{ routes.root_url }}">Home</a>
-      <a class="reference-style-header__mobile-link" href="/collections/all">Catalog</a>
-      <a class="reference-style-header__mobile-link" href="/pages/about-us">About us</a>
-      <a class="reference-style-header__mobile-link" href="/pages/contact">Contact</a>
     {% endif %}
 
     {% if shop.customer_accounts_enabled %}
-      <a class="reference-style-header__mobile-link reference-style-header__mobile-account" href="{{ routes.account_url }}">
+      <a
+        class="vybe-overlay-header__mobile-link vybe-overlay-header__mobile-account"
+        href="{{ routes.account_url }}"
+      >
         Account
       </a>
     {% endif %}
@@ -297,8 +280,8 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    var burger = document.getElementById('ReferenceBurger-{{ section.id }}');
-    var menu = document.getElementById('ReferenceMobileMenu-{{ section.id }}');
+    var burger = document.getElementById('VybeBurger-{{ section.id }}');
+    var menu = document.getElementById('VybeMobileMenu-{{ section.id }}');
 
     if (!burger || !menu) return;
 
@@ -322,26 +305,42 @@
     });
 
     document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape') {
-        setMenu(false);
-      }
+      if (event.key === 'Escape') setMenu(false);
     });
   });
 </script>
 
 {% schema %}
 {
-  "name": "Reference-style header",
+  "name": "VYBE overlay header",
   "settings": [
     {
       "type": "link_list",
       "id": "menu",
       "label": "Menu"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Header text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "mobile_menu_bg",
+      "label": "Mobile menu background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "mobile_menu_text_color",
+      "label": "Mobile menu text color",
+      "default": "#000000"
     }
   ],
   "presets": [
     {
-      "name": "Reference-style header"
+      "name": "VYBE overlay header"
     }
   ]
 }

@@ -13,7 +13,7 @@
       "type": "image-banner",
       "settings": {
         "image-banner": "shopify://shop_images/vybe.png",
-        "image-overlay": 41,
+        "image-overlay": 40,
         "banner-height": 90,
         "h2-text": "NEW DROP OUT NOW!",
         "text-color": "#ffffff",

@@ -410,11 +410,50 @@
   cursor: pointer;
 }
 
-.size-chart-modal img {
+.size-chart-unit-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.size-chart-unit-button {
+  flex: 1 1 0;
+  padding: 10px 14px;
+  border: 1px solid #000;
+  background: #fff;
+  color: #000;
+  font-family: var(--font-body-family, Helvetica, Arial, sans-serif);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, font-weight 0.2s ease;
+}
+
+.size-chart-unit-button.active {
+  background: #000;
+  color: #fff;
+  font-weight: 700;
+}
+
+.size-chart-image-wrapper {
+  position: relative;
+  margin-top: 20px;
+}
+
+.size-chart-image {
   display: block;
   width: 100%;
   height: auto;
-  margin-top: 20px;
+  margin: 0;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.size-chart-image.is-hidden {
+  display: none;
+  opacity: 0;
 }
 
 /* =========================================================
@@ -689,10 +728,38 @@
   <div class="size-chart-modal-content">
     <span class="size-chart-modal-close" onclick="document.getElementById('size-chart-modal').classList.remove('active')">&times;</span>
     <h3 style="font-size: 18px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px;">Size Chart</h3>
-    {% if section.settings.size_chart_image != blank %}
-      <img src="{{ section.settings.size_chart_image | image_url: width: 800 }}" alt="Size Chart" />
+
+    {% if section.settings.cm_image != blank or section.settings.inches_image != blank %}
+      <div class="size-chart-unit-toggle" role="group" aria-label="Size chart units">
+        <button type="button" class="size-chart-unit-button active" data-size-chart-unit="cm" aria-pressed="true">Centimetres</button>
+        <button type="button" class="size-chart-unit-button" data-size-chart-unit="inches" aria-pressed="false">Inches</button>
+      </div>
+
+      <div class="size-chart-image-wrapper">
+        {% if section.settings.cm_image != blank %}
+          <img
+            src="{{ section.settings.cm_image | image_url: width: 800 }}"
+            alt="{{ section.settings.cm_image.alt | default: 'Size chart in centimetres' | escape }}"
+            class="size-chart-image"
+            data-size-chart-image="cm"
+            width="{{ section.settings.cm_image.width }}"
+            height="{{ section.settings.cm_image.height }}"
+          >
+        {% endif %}
+
+        {% if section.settings.inches_image != blank %}
+          <img
+            src="{{ section.settings.inches_image | image_url: width: 800 }}"
+            alt="{{ section.settings.inches_image.alt | default: 'Size chart in inches' | escape }}"
+            class="size-chart-image is-hidden"
+            data-size-chart-image="inches"
+            width="{{ section.settings.inches_image.width }}"
+            height="{{ section.settings.inches_image.height }}"
+          >
+        {% endif %}
+      </div>
     {% else %}
-      <p style="margin-top: 20px;">Please upload a size chart image from the theme editor.</p>
+      <p style="margin-top: 20px;">Please upload Centimetres and Inches size chart images from the theme editor.</p>
     {% endif %}
   </div>
 </div>
@@ -807,6 +874,39 @@ if (sizeChartModal) {
   });
 }
 
+// Size chart centimetres / inches toggle
+const sizeChartUnitButtons = document.querySelectorAll('[data-size-chart-unit]');
+const sizeChartImages = document.querySelectorAll('[data-size-chart-image]');
+
+function showSizeChartUnit(unit) {
+  const requestedImage = document.querySelector(`[data-size-chart-image="${unit}"]`);
+  const fallbackImage = document.querySelector('[data-size-chart-image="cm"]') || document.querySelector('[data-size-chart-image="inches"]');
+  const imageToShow = requestedImage || fallbackImage;
+
+  if (!imageToShow) return;
+
+  const activeUnit = imageToShow.getAttribute('data-size-chart-image');
+
+  sizeChartImages.forEach(image => {
+    image.classList.toggle('is-hidden', image !== imageToShow);
+  });
+
+  sizeChartUnitButtons.forEach(button => {
+    const isActive = button.getAttribute('data-size-chart-unit') === activeUnit;
+    button.classList.toggle('active', isActive);
+    button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+  });
+}
+
+sizeChartUnitButtons.forEach(button => {
+  button.addEventListener('click', function() {
+    showSizeChartUnit(this.getAttribute('data-size-chart-unit'));
+  });
+});
+
+// Default to centimetres when the size chart loads.
+showSizeChartUnit('cm');
+
 // Buy Now functionality
 const buyNowBtn = document.querySelector('.btn-buy-now');
 if (buyNowBtn) {
@@ -837,8 +937,13 @@ if (buyNowBtn) {
   "settings": [
     {
       "type": "image_picker",
-      "id": "size_chart_image",
-      "label": "Size Chart Image"
+      "id": "cm_image",
+      "label": "Size Chart - Centimetres"
+    },
+    {
+      "type": "image_picker",
+      "id": "inches_image",
+      "label": "Size Chart - Inches"
     }
   ]
 }
